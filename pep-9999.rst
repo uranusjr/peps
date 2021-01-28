@@ -1,0 +1,63 @@
+PEP: 9999
+Title: Describing Python dependencies of a project for reproduction
+Author: Tzu-ping Chung <uranusjr@gmail.com>
+Sponsor: TBD
+PEP-Delegate: TBD
+Discussions-To: TBD
+Status: Draft
+Type: Process
+Content-Type: text/x-rst
+Created: TBA
+
+
+Abstract
+========
+
+This PEP specifies a "lock file" format to describe a project's Python
+dependencies. The file can later be applied to another Python environment so
+it replicates the same set of dependencies for the project to run in.
+
+
+Motivation
+==========
+
+
+Rationale
+=========
+
+
+Specification
+=============
+
+
+Backwards Compatibility
+=======================
+
+
+Security Implications
+=====================
+
+
+Reference Implementation
+========================
+
+None at the moment.
+
+
+Rejected Ideas
+==============
+
+None at the moment.
+
+
+Open Issues
+===========
+
+None at the moment.
+
+
+Copyright
+=========
+
+This document is placed in the public domain or under the
+CC0-1.0-Universal license, whichever is more permissive.
