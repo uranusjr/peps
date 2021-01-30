@@ -13,13 +13,68 @@ Created: TBA
 Abstract
 ========
 
-This PEP specifies a "lock file" format to describe a project's Python
-dependencies. The file can later be applied to another Python environment so
-it replicates the same set of dependencies for the project to run in.
+This PEP specifies a file format to describe a project's Python
+dependencies, that can later be applied to another Python environment
+to replicate the same set of dependencies for the project to run in.
 
 
 Motivation
 ==========
+
+It is a common need to describe installed third-party Python packages
+in  an environment, to replicate the same package set in another
+environment. Pip's `requirements file`_ format is commonly used for
+this, which can be generated with ``pip freeze`` to describe an
+existing environment. Once generated, the file can be used to populate
+another environment (generally by feeding the file into pip with
+``pip install -r``), so the environments contain the same version of
+third-party packages.
+
+While being widely adopted, the format has several deficiencies:
+
+* It uses terminology specific to pip. While the requirements file may
+  contain options to configure how pip should behave, the options are
+  all pip-specific and subject to pip internal changes. New options
+  are added to the format when pip adds new options, and existing ones
+  change behaviour when pip changes.
+* It loses user intent. The file describes "what" packages to install
+  and "how" to install them, but not "why" they need to be installed.
+  This makes the file difficult to maintain as time passes, and even
+  harder to modify when one or more packages need to be upgraded.
+* It contains many features not related to the environment replication
+  use case, such as including contraint files (``-c``) and specifying
+  non-exact requirements (``project>=1.0``). This makes the format
+  difficult to teach to less experienced users since it is unclear how
+  and why the format should be used in the way it is.
+
+Multiple projects have made attempts to resolve the deficiencies,
+either by building upon the requirements file format, or inventing a
+new one, with success. This however introduces an iteroperability
+problem. Since each tool maintains its own format, it is only possible
+to make sense of some content using the tool producing it. This
+creates friction for projects to adopt tools to the workflow, since
+it relies on the one tools providing the format to support various
+workflow requirements. It also makes changes to the file difficult to
+review (which is a security concern [#lock-file-security]_), and the
+review process difficult to automate, since tools and services would
+also have to actively provide support for each possible tool and file
+format.
+
+The aim of this PEP is to introduce a new format designed to support
+the well-established environment reproduction use case, removing
+unrelated features, and standardising those need to be understood
+by different aspects of a development workflow.
+
+This PEP does not attempt to make the requirements file format
+obsolete. As mentioned above, the file format contains many features
+unrelated to the use case this PEP aims to solve. Those are still
+valid use cases, and this PEP does not take position on those issues.
+The goal here is that users do not need to use the requirements file
+format for the environment reproduction use case.
+
+This PEP also does not aim to cover project dependencies that, when
+installed, is not described by the `Recording installed projects`_
+specification.
 
 
 Rationale
@@ -32,6 +87,9 @@ Specification
 
 Backwards Compatibility
 =======================
+
+Since this PEP specifies a new format with a new file naming scheme,
+there are no backwards compatibility concerns.
 
 
 Security Implications
@@ -56,8 +114,28 @@ Open Issues
 None at the moment.
 
 
+References
+==========
+
+.. [#lock-file-security] https://snyk.io/blog/why-npm-lockfiles-can-be-a-security-blindspot-for-injecting-malicious-modules/
+
+.. _`requirements file`: https://pip.pypa.io/en/stable/user_guide/#requirements-files
+
+.. _`Recording installed projects`: https://packaging.python.org/specifications/recording-installed-packages/
+
+
 Copyright
 =========
 
 This document is placed in the public domain or under the
 CC0-1.0-Universal license, whichever is more permissive.
+
+
+..
+   Local Variables:
+   mode: indented-text
+   indent-tabs-mode: nil
+   sentence-end-double-space: t
+   fill-column: 70
+   coding: utf-8
+   End:
