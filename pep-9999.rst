@@ -80,6 +80,25 @@ specification.
 Rationale
 =========
 
+The file format proposed in this PEP should be:
+
+* Easy to read and write by a tool implemented with Python.
+* Reasonably readable to a human.
+* When being partially updated, produce a reviwable diff.
+* Written to a file name that, to people working on a project, is
+  easily distinguishable.
+
+The data structure encoded by the format should provide three kinds of
+information:
+
+* What Python dependencies need to be installed into an environment.
+* Where to find the Python dependencies for installation.
+* Why each package needs to be installed.
+
+For all three kinds, the structure should be able to describe Python
+software distributed using standard packaging methods, as well as
+selective de facto formats not yet codified by any specifications.
+
 
 Specification
 =============
